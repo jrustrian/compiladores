@@ -17,6 +17,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java_cup.runtime.Symbol;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 
 /**
@@ -30,7 +31,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
      */
     public FrmPrincipal() {
         initComponents();
-        this.setLocationRelativeTo(null);
+        setIconImage(new ImageIcon(getClass().getResource("/icons/logo.png")).getImage());
+        
     }
     
     //STRING para guardar el path del archivo abierto

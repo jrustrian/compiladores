@@ -166,11 +166,11 @@ public class Syntax extends java_cup.runtime.lr_parser {
     }
 
     public static void addOutput(String op){
-        /*if (op.startsWith("\"")) {
+        if (op.startsWith("\"")) {
             if (op.endsWith("\"")) {
                 op = op.substring(1, op.length() - 1);
             }
-        } */       
+        }        
         
         Syntax.output += op;
     }
