@@ -6,9 +6,11 @@
 package codigo;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
@@ -31,6 +33,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
     public FrmPrincipal() {
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setTitle("CQQ");
+        this.filePath = "";
     }
     
     //STRING para guardar el path del archivo abierto
@@ -179,7 +183,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtResult = new javax.swing.JTextArea();
         btnClearConsole = new javax.swing.JButton();
-        txtSaveAs = new javax.swing.JButton();
+        btnCloseFile = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         btnAnalyze = new javax.swing.JButton();
         btnOpenFile = new javax.swing.JButton();
@@ -191,6 +195,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
 
         txtInput.setColumns(20);
+        txtInput.setFont(new java.awt.Font("Monospaced", 0, 18)); // NOI18N
         txtInput.setRows(5);
         jScrollPane2.setViewportView(txtInput);
 
@@ -207,10 +212,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
 
-        txtSaveAs.setBackground(new java.awt.Color(255, 255, 204));
-        txtSaveAs.setText("Guardar como");
-        txtSaveAs.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        txtSaveAs.setBorderPainted(false);
+        btnCloseFile.setBackground(new java.awt.Color(255, 255, 204));
+        btnCloseFile.setText("Cerrar archivo");
+        btnCloseFile.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCloseFile.setBorderPainted(false);
+        btnCloseFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseFileActionPerformed(evt);
+            }
+        });
 
         btnSave.setBackground(new java.awt.Color(255, 255, 204));
         btnSave.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -271,7 +281,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSaveAs, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCloseFile, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 388, Short.MAX_VALUE))
                     .addComponent(jScrollPane2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -288,7 +298,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnOpenFile, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnAnalyze)
-                    .addComponent(txtSaveAs, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnCloseFile, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -329,12 +339,13 @@ public class FrmPrincipal extends javax.swing.JFrame {
         JFileChooser chooser = new JFileChooser();
         chooser.showOpenDialog(null);
         StringBuilder code = new StringBuilder();
+        File currentFile = chooser.getSelectedFile();
+        
         try {
             BufferedReader br = new BufferedReader(new FileReader(chooser.getSelectedFile()));
             String codeLine = br.readLine();
             
-            File currentFile = chooser.getSelectedFile();
-            this.filePath =  currentFile.getAbsolutePath();
+            
             
             while (codeLine!=null) {
                 code.append(codeLine);
@@ -351,6 +362,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
             data += scanner.toString();
         }*/
         txtInput.setText(code.toString());
+        this.filePath =  currentFile.getAbsolutePath();
+        this.setTitle("CQQ - " + this.filePath);
     }//GEN-LAST:event_btnOpenFileActionPerformed
 
     private void btnClearConsoleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearConsoleActionPerformed
@@ -360,8 +373,49 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
-        if(this.filePath != null);
+        //if(this.filePath != null);
+        if(this.filePath != "") {
+            File currentFile = new File(this.filePath);
+             try {
+                FileWriter fw= new FileWriter(currentFile);
+                BufferedWriter bw = new BufferedWriter(fw);
+
+                txtInput.write(bw);
+                fw.close();
+
+            } catch (IOException ex) {
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        if(this.filePath == "") {
+            JFileChooser chooser = new JFileChooser();
+
+            chooser.showSaveDialog(null);
+
+            File newFile = chooser.getSelectedFile();
+
+            try {
+                FileWriter fw= new FileWriter(newFile);
+                BufferedWriter bw = new BufferedWriter(fw);
+
+                txtInput.write(bw);
+                fw.close();
+
+            } catch (IOException ex) {
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.filePath =  newFile.getAbsolutePath();
+            this.setTitle("CQQ - " + this.filePath);
+        }
+        
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnCloseFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseFileActionPerformed
+        // TODO add your handling code here:
+        this.filePath = "";
+        this.setTitle("CQQ - Sin archivo");
+        txtInput.setText(null);
+    }//GEN-LAST:event_btnCloseFileActionPerformed
 
     /**
      * @param args the command line arguments
@@ -401,6 +455,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnalyze;
     private javax.swing.JButton btnClearConsole;
+    private javax.swing.JButton btnCloseFile;
     private javax.swing.JButton btnOpenFile;
     private javax.swing.JButton btnSave;
     private javax.swing.JPanel jPanel1;
@@ -409,6 +464,5 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTextArea txtInput;
     private javax.swing.JTextArea txtResult;
-    private javax.swing.JButton txtSaveAs;
     // End of variables declaration//GEN-END:variables
 }

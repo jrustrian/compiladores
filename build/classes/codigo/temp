@@ -1,0 +1,15 @@
+
+/*
+xeelank |
+raquiq |
+tz'apok |
+ajl |
+alanel |
+tz'iib' |
+tz'iib'a
+{lexeme=yytext(); return RESERVADAS;}
+*/
+
+
+"(" {return new Symbol(sym.OPENING_PARENTHESIS, yychar, yyline, yytext());}
+")" {return new Symbol(sym.CLOSING_PARENTHESIS, yychar, yyline, yytext());}

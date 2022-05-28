@@ -18,10 +18,10 @@ import java.nio.file.Paths;
 public class Principal {
     
     public static void main(String[] args) throws Exception {
-        String ruta1 = "C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\TestCQQ1\\src\\codigo\\Lexer.flex";
-        String ruta2 = "C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\TestCQQ1\\src\\codigo\\LexerCup.flex";
+        String ruta1 = "C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\CQQ_0_1\\src\\codigo\\Lexer.flex";
+        String ruta2 = "C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\CQQ_0_1\\src\\codigo\\LexerCup.flex";
         
-        String[] rutaSyntax = {"-parser", "Syntax", "C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\TestCQQ1\\src\\codigo\\Syntax.cup"};
+        String[] rutaSyntax = {"-parser", "Syntax", "C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\CQQ_0_1\\src\\codigo\\Syntax.cup"};
         
         
         generator(ruta1, ruta2, rutaSyntax);
@@ -36,24 +36,24 @@ public class Principal {
         
         java_cup.Main.main(rutaSyntax);
         
-        Path rutaSym = Paths.get("C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\TestCQQ1\\src\\codigo\\sym.java");
+        Path rutaSym = Paths.get("C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\CQQ_0_1\\src\\codigo\\sym.java");
         if (Files.exists(rutaSym)) {
             Files.delete(rutaSym);
         }
         
-        Path rutaSyn = Paths.get("C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\TestCQQ1\\src\\codigo\\Syntax.java");
+        Path rutaSyn = Paths.get("C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\CQQ_0_1\\src\\codigo\\Syntax.java");
         if (Files.exists(rutaSyn)) {
             Files.delete(rutaSyn);
         }
         
         Files.move(
-                Paths.get("C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\TestCQQ1\\sym.java"), 
-                Paths.get("C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\TestCQQ1\\src\\codigo\\sym.java")
+                Paths.get("C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\CQQ_0_1\\sym.java"), 
+                Paths.get("C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\CQQ_0_1\\src\\codigo\\sym.java")
         );
         
         Files.move(
-                Paths.get("C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\TestCQQ1\\Syntax.java"), 
-                Paths.get("C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\TestCQQ1\\src\\codigo\\Syntax.java")
+                Paths.get("C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\CQQ_0_1\\Syntax.java"), 
+                Paths.get("C:\\Users\\vm-modern15\\Documents\\NetBeansProjects\\CQQ_0_1\\src\\codigo\\Syntax.java")
         );
 
     }
