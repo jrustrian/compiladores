@@ -187,6 +187,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         btnAnalyze = new javax.swing.JButton();
         btnOpenFile = new javax.swing.JButton();
+        btnSaveAs = new javax.swing.JButton();
 
         jToggleButton1.setText("jToggleButton1");
 
@@ -266,6 +267,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
             }
         });
 
+        btnSaveAs.setBackground(new java.awt.Color(255, 255, 204));
+        btnSaveAs.setText("Guardar como");
+        btnSaveAs.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnSaveAs.setBorderPainted(false);
+        btnSaveAs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveAsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -281,7 +292,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCloseFile, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSaveAs, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnCloseFile, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 388, Short.MAX_VALUE))
                     .addComponent(jScrollPane2)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -293,12 +306,15 @@ public class FrmPrincipal extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnOpenFile, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnAnalyze)
-                    .addComponent(btnCloseFile, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnSaveAs, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCloseFile, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -343,15 +359,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
         
         try {
             BufferedReader br = new BufferedReader(new FileReader(chooser.getSelectedFile()));
-            String codeLine = br.readLine();
+            //String codeLine = br.readLine();
             
-            
-            
+            txtInput.read(br, evt);
+            /*
             while (codeLine!=null) {
                 code.append(codeLine);
                 code.append(System.lineSeparator());
                 codeLine = br.readLine();
             }
+            */
         } catch (FileNotFoundException ex) {
             Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -361,7 +378,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         /*while(scanner.hasNext()) {
             data += scanner.toString();
         }*/
-        txtInput.setText(code.toString());
+        //txtInput.setText(code.toString());
         this.filePath =  currentFile.getAbsolutePath();
         this.setTitle("CQQ - " + this.filePath);
     }//GEN-LAST:event_btnOpenFileActionPerformed
@@ -413,9 +430,31 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void btnCloseFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseFileActionPerformed
         // TODO add your handling code here:
         this.filePath = "";
-        this.setTitle("CQQ - Sin archivo");
+        this.setTitle("CQQ - Ningún archivo abierto");
         txtInput.setText(null);
     }//GEN-LAST:event_btnCloseFileActionPerformed
+
+    private void btnSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveAsActionPerformed
+        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+
+            chooser.showSaveDialog(null);
+
+            File newFile = chooser.getSelectedFile();
+
+            try {
+                FileWriter fw= new FileWriter(newFile);
+                BufferedWriter bw = new BufferedWriter(fw);
+
+                txtInput.write(bw);
+                fw.close();
+
+            } catch (IOException ex) {
+                Logger.getLogger(FrmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.filePath =  newFile.getAbsolutePath();
+            this.setTitle("CQQ - " + this.filePath);
+    }//GEN-LAST:event_btnSaveAsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -458,6 +497,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btnCloseFile;
     private javax.swing.JButton btnOpenFile;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSaveAs;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

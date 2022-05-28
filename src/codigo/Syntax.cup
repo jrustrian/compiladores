@@ -105,7 +105,7 @@ STATEMENT ::=
     PRINT OPENING_PARENTHESIS IDENTIFIER:str CLOSING_PARENTHESIS SEMICOLON 
     {:
         int _integer = Syntax.getIntegerVariable(str.toString());
-        Syntax.addOutput(_integer.toString());
+        Syntax.addOutput(Integer.toString(_integer));
     :}
     |
     PRINT OPENING_PARENTHESIS STRING:str CLOSING_PARENTHESIS SEMICOLON 
@@ -124,7 +124,7 @@ STATEMENT ::=
         int _integerConst = 0;
         _integerConst = Integer.parseInt(_integer.toString());
         _var = Syntax.getIntegerVariable(str.toString());
-        while(_var > _integerConst) {
+        while(_integerConst > _var) {
             Syntax.addOutput("hola");
             _integerConst++;
         }
